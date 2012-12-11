@@ -1,24 +1,26 @@
 %define upstream_name    Getopt-Inherited
 %define upstream_version 1.100860
 
-Name:       perl-%{upstream_name}
-Version:    %perl_convert_version %{upstream_version}
-Release:    %mkrel 2
+Name:		perl-%{upstream_name}
+Version:	%perl_convert_version %{upstream_version}
+Release:	3
 
-Summary:    Handling inherited command-line options
-License:    GPL+ or Artistic
-Group:      Development/Perl
-Url:        http://search.cpan.org/dist/%{upstream_name}
-Source0:    http://www.cpan.org/modules/by-module/Getopt/%{upstream_name}-%{upstream_version}.tar.gz
+Summary:	Handling inherited command-line options
+License:	GPL+ or Artistic
+Group:		Development/Perl
+Url:		http://search.cpan.org/dist/%{upstream_name}
+Source0:	http://www.cpan.org/modules/by-module/Getopt/%{upstream_name}-%{upstream_version}.tar.gz
 
-BuildRequires: perl(Class::Accessor::Complex)
-BuildRequires: perl(Data::Inherited)
-BuildRequires: perl(ExtUtils::MakeMaker)
-BuildRequires: perl(Getopt::Long)
-BuildRequires: perl(Pod::Usage)
-BuildRequires: perl(Test::More)
-BuildArch: noarch
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
+BuildRequires:	perl-devel
+BuildRequires:	perl(Class::Accessor)
+BuildRequires:	perl(Class::Accessor::Complex)
+BuildRequires:	perl(Class::Accessor::Installer)
+BuildRequires:	perl(Data::Inherited)
+BuildRequires:	perl(ExtUtils::MakeMaker)
+BuildRequires:	perl(Getopt::Long)
+BuildRequires:	perl(Pod::Usage)
+BuildRequires:	perl(Test::More)
+BuildArch:	noarch
 
 %description
 By subclassing this mixin class, your program gets the ability to inherit
@@ -35,24 +37,33 @@ You can also define defaults for command-line options.
 %setup -q -n %{upstream_name}-%{upstream_version}
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor
-
-%{make}
+perl Makefile.PL INSTALLDIRS=vendor
+%make
 
 %check
-%{make} test
+%make test
 
 %install
-rm -rf %buildroot
 %makeinstall_std
 
-%clean
-rm -rf %buildroot
-
 %files
-%defattr(-,root,root)
 %doc README Changes
 %{_mandir}/man3/*
-%perl_vendorlib/*
+%{perl_vendorlib}/*
+
+%changelog
+* Sun Apr 17 2011 Funda Wang <fwang@mandriva.org> 1.100.860-2mdv2011.0
++ Revision: 654194
+- rebuild for updated spec-helper
+
+* Sun Mar 28 2010 Jérôme Quelin <jquelin@mandriva.org> 1.100.860-1mdv2011.0
++ Revision: 528432
+- update to 1.100860
+
+* Mon Feb 08 2010 Jérôme Quelin <jquelin@mandriva.org> 0.10.0-1mdv2010.1
++ Revision: 502083
+- import perl-Getopt-Inherited
 
 
+* Mon Feb 08 2010 cpan2dist 0.01-1mdv
+- initial mdv release, generated with cpan2dist
